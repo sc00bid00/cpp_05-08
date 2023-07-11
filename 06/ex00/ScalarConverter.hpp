@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:52:11 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/11 13:28:43 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/11 13:37:45 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@
 # define PRECISION			15
 
 class	ScalarConverter {
-	public:
+	private:
 		ScalarConverter(void);
 		ScalarConverter(ScalarConverter const& src);
 		~ScalarConverter(void);
 		ScalarConverter& operator=(ScalarConverter const& rhs);
-
+	public:
 		static void	convert(std::string str);
 };
+
