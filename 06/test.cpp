@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:58:28 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/10 20:59:24 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/11 10:38:58 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 #include <sstream>
 #include <limits>
 #include <cmath>
+#include <iomanip>
 
 # define ERR_CONVERTIBLE	"impossible"
-# define ERR_DISPLAYABLE		"Non displayable"
+# define ERR_DISPLAYABLE	"Non displayable"
+# define D_PRECISION		5
+# define F_PRECISION		5
 
 /* true if the numeral has a fractional part, requires cmath */
 bool	hasFractionalPart(double value) {
@@ -36,7 +39,6 @@ int	isValidFloat(std::string literal) {
 	float	result;
 	int		pointFlag = 0;
 	int		eFlag = 0;
-	int		status = 0b000;
 
 	if (literal[literal.length() - 1] != 'f')
 		return false;
@@ -59,10 +61,39 @@ int	isValidFloat(std::string literal) {
 	return true;
 }
 
-/* true if a valid double */
-bool isDouble(std::string)
+std::string	formatOutputDouble(double result) {
+	std::stringstream	ss;
+	ss << std::fixed << std::setprecision(D_PRECISION) << result;
+	std::string strValue = ss.str();
+	if (result == INFINITY || result == -INFINITY)
+		return strValue;
+	std::string::size_type	posE = strValue.find('e');
+	if (posE != std::string::npos)
+		return strValue;
+	std::string::size_type	posDot = strValue.find('.');
+	if (posDot != std::string::npos)
+		return strValue;
+	return (strValue + ".0");
+}
 
-void	stringToOther(const std::string& str) {
+std::string	formatOutputFloat(double result) {
+	std::stringstream	ss;
+	ss << std::fixed << std::setprecision(F_PRECISION) << result;
+	std::string strValue = ss.str();
+	if (result == INFINITY || result == -INFINITY)
+		return (strValue + "f");
+	std::string::size_type	posE = strValue.find('e');
+	if (posE != std::string::npos)
+		return (strValue + "f");
+	std::string::size_type	posDot = strValue.find('.');
+	if (posDot != std::string::npos)
+		return (strValue + "f");
+	return (strValue + ".0f");
+}
+
+void	stringToOther(std::string& str) {
+		if (str.length() > 1 && str[str.length() - 1] == 'f')
+			str.erase(str.length() - 1);
 		std::istringstream iss(str);
 		double result;
 		iss >> result;
@@ -70,8 +101,8 @@ void	stringToOther(const std::string& str) {
 			std::cerr << "double : " << ERR_CONVERTIBLE << std::endl;
 		}
 		else if (result || str == "0") {
-				std::cout << "double : " << result << std::endl;
-				std::cout << "float  : " << static_cast<float>(result) << std::endl;
+				std::cout << "double : " << formatOutputDouble(result) << std::endl;
+				std::cout << "float  : " << formatOutputFloat(static_cast<float>(result)) << std::endl;
 			if (result > std::numeric_limits<int>::max() || result < std::numeric_limits<int>::min() ) {
 				std::cerr << "int    : " << ERR_CONVERTIBLE << std::endl;
 				std::cerr << "char   : " << ERR_CONVERTIBLE << std::endl;
@@ -89,9 +120,9 @@ void	stringToOther(const std::string& str) {
 				}
 		}
 		else if(!result && str.length() == 1) {
-			std::cerr << "double : " << ERR_CONVERTIBLE << std::endl;
-			std::cerr << "float  : " << ERR_CONVERTIBLE << std::endl;
-			std::cerr << "int    : " << ERR_CONVERTIBLE << std::endl;
+			std::cerr << "double : " << formatOutputDouble(static_cast<double>(static_cast<char>(str[0]))) << std::endl;
+			std::cerr << "float  : " << formatOutputFloat(static_cast<float>(static_cast<char>(str[0]))) << std::endl;
+			std::cerr << "int    : " << static_cast<int>(static_cast<char>(str[0]))<< std::endl;
 			if (static_cast<int>(str[0]) > 32 && static_cast<int>(str[0]) < 127)
 				std::cout << "char   : " << str[0] << std::endl;
 			else
@@ -103,11 +134,11 @@ int main(void) {
 	std::string input;
 	std::cout << "Enter a string: ";
 	std::cin >> input;
-	if (isValidFloat(input))
-		std::cout << "Input is a float" << std::endl;
-	else
-		std::cout << "Input is not a float" << std::endl;
-	// stringToOther(input);
+	// if (isValidFloat(input))
+	// 	std::cout << "Input is a float" << std::endl;
+	// else
+	// 	std::cout << "Input is not a float" << std::endl;
+	stringToOther(input);
 	// std::cout << "double max : " << std::numeric_limits<double>::max() << std::endl;
 	// std::cout << "double min : " << std::numeric_limits<double>::min() << std::endl;
 	// std::cout << "float max : " << std::numeric_limits<float>::max() << std::endl;
@@ -116,3 +147,4 @@ int main(void) {
 	// std::cout << "int min : " << std::numeric_limits<int>::min() << std::endl;
 	return 0;
 }
+
