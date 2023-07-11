@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:58:43 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/11 11:25:50 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/11 13:26:10 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,63 @@ ScalarConverter	&	ScalarConverter::operator=(ScalarConverter const& rhs) {
 
 /* === METHOD IMPLEMENTATION === */
 
+bool	isDigit(char c) {
+	if (c >= '0' && c <= '9')
+		return true;
+	return false;
+}
+
+bool	isSupsicioius(std::string str) {
+	int	flag = 0;
+	for (unsigned int i = 0; i < str.length(); i++) {
+		if (str[i] == '.' && !flag)
+			flag = 1;
+		else if (str[i] == '.' && flag)
+			return true;
+		else if (i == 0 && (str[i] != '-' || str[i] != '+'))
+			;
+		else if (!isDigit(str[i]))
+			return true;
+	}
+	return false;
+}
+
+bool	isZero(std::string str) {
+	int	flag = 0;
+	for (unsigned int i = 0; i < str.length(); i++) {
+		if (!flag && str[i] == '.')
+			flag |= 1;
+		else if (flag && str[i] == '.')
+			return false;
+		else if (str[i] != '0')
+			return false;
+	}
+	return true;
+}
+
+bool	isNan(std::string token) {
+	std::string infs[3] = {"nan", "+nan", "-nan"};
+	for (int i = 0; i < 3; i++) {
+		if (token == infs[i])
+			return true;
+	}
+	return false;
+}
+
+bool	isInf(std::string token) {
+	std::string infs[3] = {"inf", "+inf", "-inf"};
+	for (int i = 0; i < 3; i++) {
+		if (token == infs[i])
+			return true;
+	}
+	return false;
+}
+
 std::string	formatOutputDouble(double result) {
 	std::stringstream	ss;
-	ss << std::fixed << std::setprecision(D_PRECISION) << result;
+	ss << std::setprecision(PRECISION) << result;
 	std::string strValue = ss.str();
-	if (result == INFINITY || result == -INFINITY)
+	if (result == INFINITY || result == -INFINITY || result == NAN)
 		return strValue;
 	std::string::size_type	posE = strValue.find('e');
 	if (posE != std::string::npos)
@@ -55,7 +107,7 @@ std::string	formatOutputDouble(double result) {
 
 std::string	formatOutputFloat(double result) {
 	std::stringstream	ss;
-	ss << std::fixed << std::setprecision(F_PRECISION) << result;
+	ss << std::setprecision(PRECISION) << result;
 	std::string strValue = ss.str();
 	if (result == INFINITY || result == -INFINITY)
 		return (strValue + "f");
@@ -69,13 +121,28 @@ std::string	formatOutputFloat(double result) {
 }
 
 void	ScalarConverter::convert(std::string str) {
-		if (str.length() > 1 && str[str.length() - 1] == 'f')
+	if (str.length() > 1 && str[str.length() - 1] == 'f' && !isInf(str))
 		str.erase(str.length() - 1);
 	std::istringstream iss(str);
 	double result;
 	iss >> result;
-	if (!result && str != "0" && str.length() > 1) {
+	if (isNan(str)) {
+		std::cout << "double : " << "nan" << std::endl;
+		std::cout << "float  : " << "nanf" << std::endl;
+		std::cerr << "int    : " << ERR_CONVERTIBLE << std::endl;
+		std::cerr << "char   : " << ERR_CONVERTIBLE << std::endl;
+	}
+	else if (isZero(str)) {
+		std::cout << "double : " << formatOutputDouble(0) << std::endl;
+		std::cout << "float  : " << formatOutputFloat(0) << std::endl;
+		std::cout << "int    : " << 0 << std::endl;
+		std::cerr << "char   : " << ERR_DISPLAYABLE << std::endl;
+	}
+	else if (isSupsicioius(str) || (!result && str != "0" && str.length() > 1)) {
 		std::cerr << "double : " << ERR_CONVERTIBLE << std::endl;
+		std::cerr << "float  : " << ERR_CONVERTIBLE << std::endl;
+		std::cerr << "int    : " << ERR_CONVERTIBLE << std::endl;
+		std::cerr << "char   : " << ERR_CONVERTIBLE << std::endl;
 	}
 	else if (result || str == "0") {
 			std::cout << "double : " << formatOutputDouble(result) << std::endl;
@@ -92,8 +159,10 @@ void	ScalarConverter::convert(std::string str) {
 					std::cerr << "char   : " ERR_CONVERTIBLE << std::endl;
 				else if (resultInt > 32 && resultInt < 126 )
 					std::cout << "char   : " << static_cast<char>(resultInt) << std::endl;
-				else
+				else if (resultInt >= 0)
 					std::cerr << "char   : " << ERR_DISPLAYABLE << std::endl;
+				else
+					std::cerr << "char   : " << ERR_CONVERTIBLE << std::endl;
 			}
 	}
 	else if(!result && str.length() == 1) {

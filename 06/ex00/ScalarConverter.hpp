@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:52:11 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/11 11:19:56 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/11 13:05:46 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 # include <sstream>
 # include <limits>
 # include <cmath>
+# include <math.h>
 # include <iomanip>
 # include "Colors.hpp"
 
 # define ERR_CONVERTIBLE	"impossible"
 # define ERR_DISPLAYABLE	"Non displayable"
 # define ERR_ARGNUM			"Wrong number of arguments"
-# define D_PRECISION		5
-# define F_PRECISION		5
+# define PRECISION		15
 
 class	ScalarConverter {
 	public:
