@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:58:43 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/11 13:37:33 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/11 14:10:08 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ bool	isInf(std::string token) {
 
 std::string	formatOutputDouble(double result) {
 	std::stringstream	ss;
-	ss << std::setprecision(PRECISION) << result;
+	ss << result;
 	std::string strValue = ss.str();
 	if (result == INFINITY || result == -INFINITY || result == NAN)
 		return strValue;
@@ -107,7 +107,7 @@ std::string	formatOutputDouble(double result) {
 
 std::string	formatOutputFloat(double result) {
 	std::stringstream	ss;
-	ss << std::setprecision(PRECISION) << result;
+	ss << result;
 	std::string strValue = ss.str();
 	if (result == INFINITY || result == -INFINITY)
 		return (strValue + "f");
@@ -126,9 +126,15 @@ void	ScalarConverter::convert(std::string str) {
 	std::istringstream iss(str);
 	double result;
 	iss >> result;
-	if (isNan(str)) {
+	if (isNan(str)){
 		std::cout << "double : " << "nan" << std::endl;
 		std::cout << "float  : " << "nanf" << std::endl;
+		std::cerr << "int    : " << ERR_CONVERTIBLE << std::endl;
+		std::cerr << "char   : " << ERR_CONVERTIBLE << std::endl;
+	}
+	else if (isInf(str)){
+		std::cout << "double : " << str << std::endl;
+		std::cout << "float  : " << str + "f" << std::endl;
 		std::cerr << "int    : " << ERR_CONVERTIBLE << std::endl;
 		std::cerr << "char   : " << ERR_CONVERTIBLE << std::endl;
 	}
