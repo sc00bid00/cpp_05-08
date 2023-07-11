@@ -19,7 +19,7 @@ INCLUDE_DIR := .
 VPATH := $(SRC_DIR)
 SOURCES := main.cpp ScalarConverter.cpp
 # List of header files
-HEADERS := ScalarConverter.hpp
+HEADERS := ScalarConverter.hpp Colors.hpp
 
 # Object files
 OBJ_F := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(notdir $(SOURCES)))

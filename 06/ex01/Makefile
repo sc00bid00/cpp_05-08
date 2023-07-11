@@ -19,7 +19,7 @@ INCLUDE_DIR := .
 VPATH := $(SRC_DIR)
 SOURCES := main.cpp Serializer.cpp
 # List of header files
-HEADERS := Serializer.hpp
+HEADERS := Serializer.hpp Colors.hpp
 
 # Object files
 OBJ_F := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(notdir $(SOURCES)))
