@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:58:43 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/11 14:10:08 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/11 19:27:43 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ bool	isZero(std::string str) {
 			flag |= 1;
 		else if (flag && str[i] == '.')
 			return false;
+		else if (i == 0 && (str[i] == '-' || str[i] == '+'))
+			;
 		else if (str[i] != '0')
 			return false;
 	}
