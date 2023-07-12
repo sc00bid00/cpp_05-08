@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:58:28 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/11 10:38:58 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/12 17:32:07 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,12 +139,12 @@ int main(void) {
 	// else
 	// 	std::cout << "Input is not a float" << std::endl;
 	stringToOther(input);
-	// std::cout << "double max : " << std::numeric_limits<double>::max() << std::endl;
-	// std::cout << "double min : " << std::numeric_limits<double>::min() << std::endl;
-	// std::cout << "float max : " << std::numeric_limits<float>::max() << std::endl;
-	// std::cout << "float min : " << std::numeric_limits<float>::min() << std::endl;
-	// std::cout << "int max : " << std::numeric_limits<int>::max() << std::endl;
-	// std::cout << "int min : " << std::numeric_limits<int>::min() << std::endl;
+	std::cout << "double max : " << std::numeric_limits<double>::max() << std::endl;
+	std::cout << "double min : " << std::numeric_limits<double>::min() << std::endl;
+	std::cout << "float max : " << std::numeric_limits<float>::max() << std::endl;
+	std::cout << "float min : " << std::numeric_limits<float>::min() << std::endl;
+	std::cout << "int max : " << std::numeric_limits<int>::max() << std::endl;
+	std::cout << "int min : " << std::numeric_limits<int>::min() << std::endl;
 	return 0;
 }
 
