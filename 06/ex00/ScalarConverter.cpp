@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:22:06 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/14 05:23:50 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/14 15:16:21 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,6 @@ ScalarConverter	&	ScalarConverter::operator=(ScalarConverter const& rhs) {
 }
 
 /* === METHOD IMPLEMENTATION === */
-std::string	checkChar(int n) {
-	std::stringstream	ss;
-	if (n >= 0 && n <= 255 && isprint(n)) {
-		ss << static_cast<char>(n);
-		return ss.str();
-	}
-	if (n >= 0 && n <= 255)
-		return ERR_DISPLAYABLE;
-	return ERR_CONVERTIBLE;
-
-}
-
-void	manageInt(long n) {
-	std::cout <<  MSG_CHAR << checkChar(static_cast<int>(n)) << RESET << std::endl;
-	std::cout <<  MSG_INT << static_cast<int>(n) << RESET << std::endl;
-	std::cout <<  MSG_FLOAT << static_cast<float>(n) << ".0f" << RESET << std::endl;
-	std::cout <<  MSG_DOUBLE << static_cast<double>(n) << ".0" << RESET << std::endl;
-
-}
-
 bool	isNanf(std::string token) {
 	std::string tkn[3] = {"nanf", "+nanf", "-nanf"};
 	for (int i = 0; i < 3; i++) {
@@ -93,36 +73,201 @@ bool	isInf(std::string token) {
 	return false;
 }
 
-void	manageSingle(std::string literal) {
-	if (isdigit(literal[0]))
-	{
-		std::cout << MSG_CHAR << literal[0] << RESET << std::endl;
-		std::cout << MSG_INT << static_cast<int>(literal[0]) << RESET << std::endl;
-		std::cout << MSG_FLOAT << static_cast<float>(literal[0]) << ".0f" << RESET << std::endl;
-		std::cout << MSG_DOUBLE << static_cast<double>(literal[0]) << RESET << std::endl;
-		}
+bool	isSpecialToken(std::string	s) {
+	if (isInf(s) || isInff(s) || isNan(s) || isNanf(s))
+		return true;
+	return false;
+}
+
+bool	isZero(std::string str) {
+	int	flag = 0;
+	if (str[str.length() - 1] == 'f')
+		str.erase(str.length() - 1);
+	for (unsigned int i = 0; i < str.length(); i++) {
+		if (!flag && str[i] == '.')
+			flag |= 1;
+		else if (flag && str[i] == '.')
+			return false;
+		else if (i == 0 && (str[i] == '-' || str[i] == '+'))
+			;
+		else if (str[i] != '0')
+			return false;
+	}
+	return true;
+}
+
+int	charType(long double ld) {
+	if (ld >= 0 && ld <= 255) {
+		if (std::isprint(static_cast<char>(ld)))
+			return IS_DISP;
+		else
+			return IS_NODISP;
+	}
+	return IS_NOCHAR;
+}
+
+bool	inDoubleLimits(long double ld) {
+	ld = abs(ld);
+	if (ld <= std::numeric_limits <double>::max() && ld >= std::numeric_limits <double>::min())
+		return true;
+	return false;
+}
+
+bool	inIntLimits(long double ld) {
+	if (ld <= std::numeric_limits<int>::max() && ld >= std::numeric_limits<int>::min())
+		return true;
+	return false;
+}
+
+bool	inFloatLimits(long double ld) {
+	ld = abs(ld);
+	if (ld <= std::numeric_limits <float>::max() && ld >= std::numeric_limits <float>::min())
+		return true;
+	return false;
+}
+
+bool	hasScientific(char *s) {
+	while(s && *s) {
+		if (*(s++) == 'e')
+			return true;
+	}
+	return false;
+}
+
+bool	hasDot(char *s)
+{
+	while(s && *s) {
+		if (*(s++) == '.')
+			return true;
+	}
+	return false;
+}
+
+std::string	postFixDouble(char *s) {
+	if (!hasScientific(s) && !hasDot(s))
+		return ".0";
+	double ld = strtod(s, NULL);
+	if (ld - static_cast<int>(ld) == 0)
+		return ".0";
+	return "";
+}
+
+std::string	postFixFloat(char *s) {
+	if (hasScientific(s))
+		return "f";
+	if(!hasDot(s))
+		return ".0f";
+	return "f";
+}
+
+int	typeChecker(char* s) {
+	char*		lastChar;
+	long double	ld = strtold(s, &lastChar);
+	if (s && strlen(s) == 1)
+		return IS_CHAR;
+	if (s && isZero((std::string)s))
+		return IS_ZERO;
+	if (isSpecialToken((std::string)s))
+		return IS_SPECIAL;
+	if (!*lastChar && !hasDot(s)) {
+		int n = static_cast<int>(ld);
+		if (n && inIntLimits(ld))
+			return IS_INT;
+	}
+	if (*lastChar && *lastChar == 'f' && *lastChar == s[strlen(s)- 1]) {
+		float	f = static_cast<float>(ld);
+		if (f)
+			f = abs(f);
+		if (f && inFloatLimits(ld))
+			return IS_FLOAT;
+	}
+	if (!*lastChar) {
+		double	d = static_cast<double>(ld);
+		if (d && inDoubleLimits(ld))
+			return IS_DOUBLE;
+	}
+	if (!*lastChar && s && s[strlen(s) - 1] == '0')
+		return IS_DOUBLE;
+	return IS_ELSE;
 }
 
 void	ScalarConverter::convert(std::string literal) {
-	if (literal.length() == 1)
-		manageSingle(literal);
-	else {
-		char*	lastChar;
-		long n = strtol(literal.c_str(), &lastChar, 10);
-		if (*lastChar == '\0' && n < std::numeric_limits<int>::max() && n > std::numeric_limits<int>::min())
-			manageInt(n);
-		else {
-			long double ld = strtold(literal.c_str(), &lastChar);
-			if (*lastChar == 'f')
-				// manageFloat(ld);
-			else if (*lastChar == '\0')
-				manageDouble(ls);
-			else {
-				std::cerr << BRED << MSG_CHAR <<  ERR_CONVERTIBLE << RESET << std::endl;
-				std::cerr << BRED << MSG_INT << ERR_CONVERTIBLE << RESET << std::endl;
-				std::cerr << BRED << MSG_FLOAT << ERR_CONVERTIBLE << ".0f" << RESET << std::endl;
-				std::cerr << BRED << MSG_DOUBLE << ERR_CONVERTIBLE << RESET << std::endl;
+	char*	str = const_cast<char*>(literal.c_str());
+	long double	ld = strtold(str, NULL);
+	switch (typeChecker(str)) {
+		case IS_ELSE:
+			std::cerr << BRED << M_CHAR << ERR_CONV << RESET << std::endl;
+			std::cerr << BRED << M_INT << ERR_CONV << RESET << std::endl;
+			std::cerr << BRED << M_FLOAT << ERR_CONV << RESET << std::endl;
+			std::cerr << BRED << M_DOUBLE << ERR_CONV << RESET << std::endl;
+			break;
+		case IS_DOUBLE:
+			if (charType(ld) == IS_DISP)
+				std::cout << BGREEN << M_CHAR << static_cast<char>(ld) << RESET << std::endl;
+			else if (charType(ld) == IS_NODISP)
+				std::cerr << BYELLOW << M_CHAR << ERR_DISP << RESET << std::endl;
+			else
+				std::cerr << BRED <<  M_CHAR << ERR_CONV << RESET << std::endl;
+			if (inIntLimits(ld))
+				std::cout << BGREEN << M_INT << static_cast<int>(ld) << RESET << std::endl;
+			else
+				std::cerr << BRED <<  M_INT << ERR_CONV << RESET << std::endl;
+			if (inFloatLimits(ld))
+				std::cout << BGREEN << M_FLOAT << str << postFixFloat(str) <<  RESET <<std::endl;
+			else
+				std::cerr << BRED <<  M_FLOAT << ERR_CONV << RESET << std::endl;
+			if (inDoubleLimits(ld))
+				std::cout << BGREEN << M_DOUBLE << ld << postFixDouble(str) << RESET << std::endl;
+			else
+				std::cerr << BRED <<  M_DOUBLE << ERR_CONV << RESET << std::endl;
+			break;
+		case IS_FLOAT:
+			if (charType(ld) == IS_DISP)
+				std::cout << BGREEN << M_CHAR << static_cast<char>(ld) << RESET << std::endl;
+			else if (charType(ld) == IS_NODISP)
+				std::cerr << BYELLOW << M_CHAR << ERR_DISP << RESET << std::endl;
+			else
+				std::cerr << BRED << M_CHAR << ERR_CONV << RESET << std::endl;
+			if (inIntLimits(ld))
+				std::cout << BGREEN <<  M_INT << static_cast<int>(ld) << RESET << std::endl;
+			else
+				std::cerr << BRED << M_INT << ERR_CONV << RESET << std::endl;
+			std::cout << BGREEN <<  M_FLOAT << ld << postFixFloat(str) << RESET << std::endl;
+			std::cout << BGREEN <<  M_DOUBLE << ld << postFixDouble(str) << RESET << std::endl;
+			break;
+		case IS_INT:
+			if (charType(ld) == IS_DISP)
+				std::cout << BGREEN << M_CHAR << static_cast<char>(ld) << RESET << std::endl;
+			else if (charType(ld) == IS_NODISP)
+				std::cerr << BYELLOW << M_CHAR << ERR_DISP << RESET << std::endl;
+			else
+				std::cerr << BRED << M_CHAR << ERR_CONV << RESET << std::endl;
+			std::cout << BGREEN << M_INT << ld << RESET << std::endl;
+			std::cout << BGREEN << M_FLOAT << ld << postFixFloat(str) << RESET << std::endl;
+			std::cout << BGREEN << M_DOUBLE << ld << postFixDouble(str) << RESET << std::endl;
+			break;
+		case IS_CHAR:
+			std::cout << BGREEN << M_CHAR << str << RESET << std::endl;
+			std::cout << BGREEN << M_INT << static_cast<int>(str[0]) << RESET << std::endl;
+			std::cout << BGREEN << M_FLOAT << static_cast<int>(str[0]) << postFixFloat(str) << RESET << std::endl;
+			std::cout << BGREEN << M_DOUBLE << static_cast<int>(str[0]) << postFixDouble(str) << RESET << std::endl;
+			break;
+		case IS_ZERO:
+			std::cout << BYELLOW << M_CHAR << ERR_DISP << RESET << std::endl;
+			std::cout << BGREEN << M_INT << 0 << RESET << std::endl;
+			std::cout << BGREEN << M_FLOAT << "0.0f" << RESET << std::endl;
+			std::cout << BGREEN << M_DOUBLE << "0.0" << RESET << std::endl;
+			break;
+		case IS_SPECIAL:
+			std::cerr << BRED << M_CHAR << ERR_CONV << RESET << std::endl;
+			std::cerr << BRED << M_INT << ERR_CONV << RESET << std::endl;
+			if (isInf(str) || isNan(str)) {
+				std::cout << BGREEN << M_FLOAT << str << "f" << RESET << std::endl;
+				std::cout << BGREEN << M_DOUBLE << str << RESET << std::endl;
 			}
-		}
+			else {
+				std::cout << BGREEN << M_FLOAT << str << RESET << std::endl;
+				std::cout << BGREEN << M_DOUBLE << ((std::string)str).erase(strlen(str) - 1) << RESET << std::endl;
+			}
 	}
 }
