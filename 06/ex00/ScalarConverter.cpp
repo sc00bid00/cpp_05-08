@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:22:06 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/14 15:16:21 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/14 16:29:09 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ void	ScalarConverter::convert(std::string literal) {
 			else
 				std::cerr << BRED <<  M_INT << ERR_CONV << RESET << std::endl;
 			if (inFloatLimits(ld))
-				std::cout << BGREEN << M_FLOAT << str << postFixFloat(str) <<  RESET <<std::endl;
+				std::cout << BGREEN << M_FLOAT << static_cast<float>(ld) << postFixFloat(str) <<  RESET <<std::endl;
 			else
 				std::cerr << BRED <<  M_FLOAT << ERR_CONV << RESET << std::endl;
 			if (inDoubleLimits(ld))
@@ -232,7 +232,7 @@ void	ScalarConverter::convert(std::string literal) {
 				std::cout << BGREEN <<  M_INT << static_cast<int>(ld) << RESET << std::endl;
 			else
 				std::cerr << BRED << M_INT << ERR_CONV << RESET << std::endl;
-			std::cout << BGREEN <<  M_FLOAT << ld << postFixFloat(str) << RESET << std::endl;
+			std::cout << BGREEN <<  M_FLOAT << static_cast<float>(ld) << postFixFloat(str) << RESET << std::endl;
 			std::cout << BGREEN <<  M_DOUBLE << ld << postFixDouble(str) << RESET << std::endl;
 			break;
 		case IS_INT:
