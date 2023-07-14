@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:52:11 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/14 17:04:34 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/14 17:15:54 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <string>
 # include <string.h>
 # include <cmath>
+# include <sstream>
 # include "Colors.hpp"
 
 # define ERR_NARG	BRED << "Requires 1 argument" << RESET

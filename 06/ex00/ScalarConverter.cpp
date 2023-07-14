@@ -144,18 +144,23 @@ bool	hasDot(char *s)
 }
 
 std::string	postFixDouble(char *s) {
-	if (!hasScientific(s) && !hasDot(s))
-		return ".0";
 	double ld = strtod(s, NULL);
-	if (ld - static_cast<int>(ld) == 0)
+	std::ostringstream oss;
+	oss << ld;
+	std::string	str = oss.str();
+	if (!hasScientific(const_cast<char *>(str.c_str())) && !hasDot(const_cast<char *>(str.c_str())))
 		return ".0";
 	return "";
 }
 
 std::string	postFixFloat(char *s) {
-	if (hasScientific(s))
+	double ld = strtod(s, NULL);
+	std::ostringstream oss;
+	oss << ld;
+	std::string	str = oss.str();
+	if (hasScientific(const_cast<char *>(str.c_str())))
 		return "f";
-	if(!hasDot(s))
+	if(!hasDot(const_cast<char *>(str.c_str())))
 		return ".0f";
 	return "f";
 }
