@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:22:06 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/14 16:29:09 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/14 16:51:23 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	charType(long double ld) {
 }
 
 bool	inDoubleLimits(long double ld) {
-	ld = abs(ld);
+	ld = std::abs(ld);
 	if (ld <= std::numeric_limits <double>::max() && ld >= std::numeric_limits <double>::min())
 		return true;
 	return false;
