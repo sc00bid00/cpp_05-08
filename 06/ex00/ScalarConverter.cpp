@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:22:06 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/14 16:51:23 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/14 16:59:53 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ void	ScalarConverter::convert(std::string literal) {
 			if (charType(ld) == IS_DISP)
 				std::cout << BGREEN << M_CHAR << static_cast<char>(ld) << RESET << std::endl;
 			else if (charType(ld) == IS_NODISP)
-				std::cerr << BYELLOW << M_CHAR << ERR_DISP << RESET << std::endl;
+				std::cerr << M_CHAR << ERR_DISP << RESET << std::endl;
 			else
 				std::cerr << BRED <<  M_CHAR << ERR_CONV << RESET << std::endl;
 			if (inIntLimits(ld))
@@ -225,7 +225,7 @@ void	ScalarConverter::convert(std::string literal) {
 			if (charType(ld) == IS_DISP)
 				std::cout << BGREEN << M_CHAR << static_cast<char>(ld) << RESET << std::endl;
 			else if (charType(ld) == IS_NODISP)
-				std::cerr << BYELLOW << M_CHAR << ERR_DISP << RESET << std::endl;
+				std::cerr << M_CHAR << ERR_DISP << RESET << std::endl;
 			else
 				std::cerr << BRED << M_CHAR << ERR_CONV << RESET << std::endl;
 			if (inIntLimits(ld))
@@ -239,7 +239,7 @@ void	ScalarConverter::convert(std::string literal) {
 			if (charType(ld) == IS_DISP)
 				std::cout << BGREEN << M_CHAR << static_cast<char>(ld) << RESET << std::endl;
 			else if (charType(ld) == IS_NODISP)
-				std::cerr << BYELLOW << M_CHAR << ERR_DISP << RESET << std::endl;
+				std::cerr << M_CHAR << ERR_DISP << RESET << std::endl;
 			else
 				std::cerr << BRED << M_CHAR << ERR_CONV << RESET << std::endl;
 			std::cout << BGREEN << M_INT << ld << RESET << std::endl;
@@ -253,7 +253,7 @@ void	ScalarConverter::convert(std::string literal) {
 			std::cout << BGREEN << M_DOUBLE << static_cast<int>(str[0]) << postFixDouble(str) << RESET << std::endl;
 			break;
 		case IS_ZERO:
-			std::cout << BYELLOW << M_CHAR << ERR_DISP << RESET << std::endl;
+			std::cout << M_CHAR << ERR_DISP << RESET << std::endl;
 			std::cout << BGREEN << M_INT << 0 << RESET << std::endl;
 			std::cout << BGREEN << M_FLOAT << "0.0f" << RESET << std::endl;
 			std::cout << BGREEN << M_DOUBLE << "0.0" << RESET << std::endl;

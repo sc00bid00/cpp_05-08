@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:52:11 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/14 16:51:02 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/14 16:58:48 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include "Colors.hpp"
 
 # define ERR_NARG	"Requires 1 argument"
-# define ERR_DISP	"Not displayable"
+# define ERR_DISP	BYELLOW << "Not displayable" << RESET
 # define ERR_CONV	"Impossible"
 
 # define M_CHAR		"char   : "
