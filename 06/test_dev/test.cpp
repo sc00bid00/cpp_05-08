@@ -5,146 +5,276 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 18:58:28 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/12 17:32:07 by lsordo           ###   ########.fr       */
+/*   Created: 2023/07/14 09:04:06 by lsordo            #+#    #+#             */
+/*   Updated: 2023/07/14 14:35:17 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include <sstream>
+#include <exception>
 #include <limits>
-#include <cmath>
-#include <iomanip>
+#include <string>
 
-# define ERR_CONVERTIBLE	"impossible"
-# define ERR_DISPLAYABLE	"Non displayable"
-# define D_PRECISION		5
-# define F_PRECISION		5
+# define ERR_NARG "Requires 1 argument"
+# define ERR_DISP "Not displayable"
+# define ERR_CONV "Impossible"
 
-/* true if the numeral has a fractional part, requires cmath */
-bool	hasFractionalPart(double value) {
-	double integerPart;
-	double fractionalPart = std::modf(value, &integerPart);
-	return fractionalPart != 0.0;
+# define M_CHAR		"char   : "
+# define M_INT		"int    : "
+# define M_FLOAT	"float  : "
+# define M_DOUBLE	"double : "
+
+enum isType {
+	IS_ELSE,
+	IS_DOUBLE,
+	IS_FLOAT,
+	IS_INT,
+	IS_CHAR,
+	IS_SPECIAL,
+	IS_ZERO
+};
+
+enum charType {
+	IS_NOCHAR,
+	IS_NODISP,
+	IS_DISP
+};
+
+bool	isNanf(std::string token) {
+	std::string tkn[3] = {"nanf", "+nanf", "-nanf"};
+	for (int i = 0; i < 3; i++) {
+		if (token == tkn[i])
+			return true;
+	}
+	return false;
 }
 
-bool	isDigit(char c) {
-	if (c >= '0' && c <= '9')
+bool	isNan(std::string token) {
+	std::string tkn[3] = {"nan", "+nan", "-nan"};
+	for (int i = 0; i < 3; i++) {
+		if (token == tkn[i])
+			return true;
+	}
+	return false;
+}
+
+bool	isInff(std::string token) {
+	std::string tkn[3] = {"inff", "+inff", "-inff"};
+	for (int i = 0; i < 3; i++) {
+		if (token == tkn[i])
+			return true;
+	}
+	return false;
+}
+
+bool	isInf(std::string token) {
+	std::string tkn[3] = {"inf", "+inf", "-inf"};
+	for (int i = 0; i < 3; i++) {
+		if (token == tkn[i])
+			return true;
+	}
+	return false;
+}
+
+bool	isSpecialToken(std::string	s) {
+	if (isInf(s) || isInff(s) || isNan(s) || isNanf(s))
 		return true;
 	return false;
 }
 
-/* true if a valid float */
-int	isValidFloat(std::string literal) {
-	float	result;
-	int		pointFlag = 0;
-	int		eFlag = 0;
-
-	if (literal[literal.length() - 1] != 'f')
-		return false;
-	literal.erase(literal.length() - 1);
-	std::istringstream	iss(literal);
-	for (unsigned long i = 0; i < literal.length(); i++) {
-		if (isDigit(literal[i]) || (!pointFlag && literal[i] == '.') || (!eFlag && literal[i] == 'e')) {
-			if (literal[i] == '.')
-				pointFlag |= 1;
-			if (literal[i] == 'e')
-				eFlag |= 1;
-		}
-		else
-			return 0;
+bool	isZero(std::string str) {
+	int	flag = 0;
+	if (str[str.length() - 1] == 'f')
+		str.erase(str.length() - 1);
+	for (unsigned int i = 0; i < str.length(); i++) {
+		if (!flag && str[i] == '.')
+			flag |= 1;
+		else if (flag && str[i] == '.')
+			return false;
+		else if (i == 0 && (str[i] == '-' || str[i] == '+'))
+			;
+		else if (str[i] != '0')
+			return false;
 	}
-	iss >> result;
-	float f = static_cast<float>(result);
-	if (f == INFINITY || f == -INFINITY)
-		return false;
 	return true;
 }
 
-std::string	formatOutputDouble(double result) {
-	std::stringstream	ss;
-	ss << std::fixed << std::setprecision(D_PRECISION) << result;
-	std::string strValue = ss.str();
-	if (result == INFINITY || result == -INFINITY)
-		return strValue;
-	std::string::size_type	posE = strValue.find('e');
-	if (posE != std::string::npos)
-		return strValue;
-	std::string::size_type	posDot = strValue.find('.');
-	if (posDot != std::string::npos)
-		return strValue;
-	return (strValue + ".0");
-}
-
-std::string	formatOutputFloat(double result) {
-	std::stringstream	ss;
-	ss << std::fixed << std::setprecision(F_PRECISION) << result;
-	std::string strValue = ss.str();
-	if (result == INFINITY || result == -INFINITY)
-		return (strValue + "f");
-	std::string::size_type	posE = strValue.find('e');
-	if (posE != std::string::npos)
-		return (strValue + "f");
-	std::string::size_type	posDot = strValue.find('.');
-	if (posDot != std::string::npos)
-		return (strValue + "f");
-	return (strValue + ".0f");
-}
-
-void	stringToOther(std::string& str) {
-		if (str.length() > 1 && str[str.length() - 1] == 'f')
-			str.erase(str.length() - 1);
-		std::istringstream iss(str);
-		double result;
-		iss >> result;
-		if (!result && str != "0" && str.length() > 1) {
-			std::cerr << "double : " << ERR_CONVERTIBLE << std::endl;
-		}
-		else if (result || str == "0") {
-				std::cout << "double : " << formatOutputDouble(result) << std::endl;
-				std::cout << "float  : " << formatOutputFloat(static_cast<float>(result)) << std::endl;
-			if (result > std::numeric_limits<int>::max() || result < std::numeric_limits<int>::min() ) {
-				std::cerr << "int    : " << ERR_CONVERTIBLE << std::endl;
-				std::cerr << "char   : " << ERR_CONVERTIBLE << std::endl;
-			}
-			else
-				{
-					int resultInt = static_cast<int>(result);
-					std::cout << "int    : " << resultInt << std::endl;
-					if (resultInt > 255)
-						std::cerr << "char   : " ERR_CONVERTIBLE << std::endl;
-					else if (resultInt > 32 && resultInt < 126 )
-						std::cout << "char   : " << static_cast<char>(resultInt) << std::endl;
-					else
-						std::cerr << "char   : " << ERR_DISPLAYABLE << std::endl;
-				}
-		}
-		else if(!result && str.length() == 1) {
-			std::cerr << "double : " << formatOutputDouble(static_cast<double>(static_cast<char>(str[0]))) << std::endl;
-			std::cerr << "float  : " << formatOutputFloat(static_cast<float>(static_cast<char>(str[0]))) << std::endl;
-			std::cerr << "int    : " << static_cast<int>(static_cast<char>(str[0]))<< std::endl;
-			if (static_cast<int>(str[0]) > 32 && static_cast<int>(str[0]) < 127)
-				std::cout << "char   : " << str[0] << std::endl;
-			else
-				std::cerr << "char   : " << ERR_DISPLAYABLE << std::endl;
-		}
+int	charType(long double ld) {
+	if (ld >= 0 && ld <= 255) {
+		if (std::isprint(static_cast<char>(ld)))
+			return IS_DISP;
+		else
+			return IS_NODISP;
 	}
+	return IS_NOCHAR;
+}
 
-int main(void) {
-	std::string input;
-	std::cout << "Enter a string: ";
-	std::cin >> input;
-	// if (isValidFloat(input))
-	// 	std::cout << "Input is a float" << std::endl;
-	// else
-	// 	std::cout << "Input is not a float" << std::endl;
-	stringToOther(input);
-	std::cout << "double max : " << std::numeric_limits<double>::max() << std::endl;
-	std::cout << "double min : " << std::numeric_limits<double>::min() << std::endl;
-	std::cout << "float max : " << std::numeric_limits<float>::max() << std::endl;
-	std::cout << "float min : " << std::numeric_limits<float>::min() << std::endl;
-	std::cout << "int max : " << std::numeric_limits<int>::max() << std::endl;
-	std::cout << "int min : " << std::numeric_limits<int>::min() << std::endl;
+bool	inDoubleLimits(long double ld) {
+	ld = abs(ld);
+	if (ld <= std::numeric_limits <double>::max() && ld >= std::numeric_limits <double>::min())
+		return true;
+	return false;
+}
+
+bool	inIntLimits(long double ld) {
+	if (ld <= std::numeric_limits<int>::max() && ld >= std::numeric_limits<int>::min())
+		return true;
+	return false;
+}
+
+bool	inFloatLimits(long double ld) {
+	ld = abs(ld);
+	if (ld <= std::numeric_limits <float>::max() && ld >= std::numeric_limits <float>::min())
+		return true;
+	return false;
+}
+
+bool	hasScientific(char *s) {
+	while(s && *s) {
+		if (*(s++) == 'e')
+			return true;
+	}
+	return false;
+}
+
+bool	hasDot(char *s)
+{
+	while(s && *s) {
+		if (*(s++) == '.')
+			return true;
+	}
+	return false;
+}
+
+std::string	postFixDouble(char *s) {
+	if (!hasScientific(s) && !hasDot(s))
+		return ".0";
+	double ld = strtod(s, NULL);
+	if (ld - static_cast<int>(ld) == 0)
+		return ".0";
+	return "";
+}
+
+std::string	postFixFloat(char *s) {
+	if (hasScientific(s))
+		return "f";
+	if(!hasDot(s))
+		return ".0f";
+	return "f";
+}
+
+int	typeChecker(char* s) {
+	char*		lastChar;
+	long double	ld = strtold(s, &lastChar);
+	if (s && strlen(s) == 1)
+		return IS_CHAR;
+	if (s && isZero((std::string)s))
+		return IS_ZERO;
+	if (isSpecialToken((std::string)s))
+		return IS_SPECIAL;
+	if (!*lastChar && !hasDot(s)) {
+		int n = static_cast<int>(ld);
+		if (n && inIntLimits(ld))
+			return IS_INT;
+	}
+	if (*lastChar && *lastChar == 'f' && *lastChar == s[strlen(s)- 1]) {
+		float	f = static_cast<float>(ld);
+		if (f)
+			f = abs(f);
+		if (f && inFloatLimits(ld))
+			return IS_FLOAT;
+	}
+	if (!*lastChar) {
+		double	d = static_cast<double>(ld);
+		if (d && inDoubleLimits(ld))
+			return IS_DOUBLE;
+	}
+	if (!*lastChar && s && s[strlen(s) - 1] == '0')
+		return IS_DOUBLE;
+	return IS_ELSE;
+}
+
+
+
+int	main(int argc, char ** argv) {
+	if (argc != 2)
+		return (std::cerr << ERR_NARG << std::endl, 1);
+	long double	ld = strtold(argv[1], NULL);
+	switch (typeChecker(argv[1])) {
+		case IS_ELSE:
+			std::cerr << M_CHAR << ERR_CONV << std::endl;
+			std::cerr << M_INT << ERR_CONV << std::endl;
+			std::cerr << M_FLOAT << ERR_CONV << std::endl;
+			std::cerr << M_DOUBLE << ERR_CONV << std::endl;
+			break;
+		case IS_DOUBLE:
+			if (charType(ld) == IS_DISP)
+				std::cout << M_CHAR << static_cast<char>(ld) << std::endl;
+			else if (charType(ld) == IS_NODISP)
+				std::cerr << M_CHAR << ERR_DISP << std::endl;
+			else
+				std::cerr << M_CHAR << ERR_CONV << std::endl;
+			if (inIntLimits(ld))
+				std::cout << M_INT << static_cast<int>(ld) << std::endl;
+			else
+				std::cerr << M_INT << ERR_CONV << std::endl;
+			if (inFloatLimits(ld))
+				std::cout << M_FLOAT << argv[1] << postFixFloat(argv[1]) << std::endl;
+			else
+				std::cerr << M_FLOAT << ERR_CONV << std::endl;
+			if (inDoubleLimits(ld))
+				std::cout << M_DOUBLE << ld << postFixDouble(argv[1]) << std::endl;
+			else
+				std::cerr << M_DOUBLE << ERR_CONV << std::endl;
+			break;
+		case IS_FLOAT:
+			if (charType(ld) == IS_DISP)
+				std::cout << M_CHAR << static_cast<char>(ld) << std::endl;
+			else if (charType(ld) == IS_NODISP)
+				std::cerr << M_CHAR << ERR_DISP << std::endl;
+			else
+				std::cerr << M_CHAR << ERR_CONV << std::endl;
+			if (inIntLimits(ld))
+				std::cout << M_INT << static_cast<int>(ld) << std::endl;
+			else
+				std::cerr << M_INT << ERR_CONV << std::endl;
+			std::cout << M_FLOAT << argv[1] << std::endl;
+			std::cout << M_DOUBLE << ld << postFixDouble(argv[1]) << std::endl;
+			break;
+		case IS_INT:
+			if (charType(ld) == IS_DISP)
+				std::cout << M_CHAR << static_cast<char>(ld) << std::endl;
+			else if (charType(ld) == IS_NODISP)
+				std::cerr << M_CHAR << ERR_DISP << std::endl;
+			else
+				std::cerr << M_CHAR << ERR_CONV << std::endl;
+			std::cout << M_INT << ld << std::endl;
+			std::cout << M_FLOAT << ld << postFixFloat(argv[1]) << std::endl;
+			std::cout << M_DOUBLE << ld << postFixDouble(argv[1]) << std::endl;
+			break;
+		case IS_CHAR:
+			std::cout << M_CHAR << argv[1] << std::endl;
+			std::cout << M_INT << static_cast<int>(argv[1][0]) << std::endl;
+			std::cout << M_FLOAT << static_cast<int>(argv[1][0]) << postFixFloat(argv[1]) << std::endl;
+			std::cout << M_DOUBLE << static_cast<int>(argv[1][0]) << postFixDouble(argv[1]) << std::endl;
+			break;
+		case IS_ZERO:
+			std::cout << M_CHAR << ERR_DISP << std::endl;
+			std::cout << M_INT << 0 << std::endl;
+			std::cout << M_FLOAT << "0.0f" << std::endl;
+			std::cout << M_DOUBLE << "0.0" << std::endl;
+			break;
+		case IS_SPECIAL:
+			std::cerr << M_CHAR << ERR_CONV << std::endl;
+			std::cerr << M_INT << ERR_CONV << std::endl;
+			if (isInf(argv[1]) || isNan(argv[1])) {
+				std::cout << M_FLOAT << argv[1] << "f" << std::endl;
+				std::cout << M_DOUBLE << argv[1] << std::endl;
+			}
+			else {
+				std::cout << M_FLOAT << argv[1] << std::endl;
+				std::cout << M_DOUBLE << ((std::string)argv[1]).erase(strlen(argv[1]) - 1) << std::endl;
+			}
+	}
 	return 0;
 }
-
