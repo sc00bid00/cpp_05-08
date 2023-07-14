@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 10:52:11 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/14 16:58:48 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/14 17:04:34 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@
 # include <cmath>
 # include "Colors.hpp"
 
-# define ERR_NARG	"Requires 1 argument"
+# define ERR_NARG	BRED << "Requires 1 argument" << RESET
 # define ERR_DISP	BYELLOW << "Not displayable" << RESET
-# define ERR_CONV	"Impossible"
+# define ERR_CONV	BRED << "Impossible" << RESET
 
-# define M_CHAR		"char   : "
-# define M_INT		"int    : "
-# define M_FLOAT	"float  : "
-# define M_DOUBLE	"double : "
+# define M_CHAR		BWHITE << "char   : " << RESET
+# define M_INT		BWHITE << "int    : " << RESET
+# define M_FLOAT	BWHITE << "float  : " << RESET
+# define M_DOUBLE	BWHITE << "double : " << RESET
 
 enum isType {
 	IS_ELSE,

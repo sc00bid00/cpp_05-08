@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ScalarConverter.cpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 10:22:06 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/14 16:59:53 by lsordo           ###   ########.fr       */
-/*                                                                            */
+/*                   */
+/*              :::  :::::::: */
+/* ScalarConverter.cpp        :+:  :+: :+: */
+/*             +:+ +:+   +:+  */
+/* By: lsordo <lsordo@student.42heilbronn.de>  +#+ +:+  +#+  */
+/*            +#+#+#+#+#+ +#+   */
+/* Created: 2023/07/13 10:22:06 by lsordo   #+# #+#    */
+/* Updated: 2023/07/14 17:02:24 by lsordo   ### ########.fr  */
+/*                   */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
@@ -196,78 +196,78 @@ void	ScalarConverter::convert(std::string literal) {
 	long double	ld = strtold(str, NULL);
 	switch (typeChecker(str)) {
 		case IS_ELSE:
-			std::cerr << BRED << M_CHAR << ERR_CONV << RESET << std::endl;
-			std::cerr << BRED << M_INT << ERR_CONV << RESET << std::endl;
-			std::cerr << BRED << M_FLOAT << ERR_CONV << RESET << std::endl;
-			std::cerr << BRED << M_DOUBLE << ERR_CONV << RESET << std::endl;
+			std::cerr << M_CHAR << ERR_CONV << std::endl;
+			std::cerr << M_INT << ERR_CONV << std::endl;
+			std::cerr << M_FLOAT << ERR_CONV << std::endl;
+			std::cerr << M_DOUBLE << ERR_CONV << std::endl;
 			break;
 		case IS_DOUBLE:
 			if (charType(ld) == IS_DISP)
-				std::cout << BGREEN << M_CHAR << static_cast<char>(ld) << RESET << std::endl;
+				std::cout << M_CHAR << static_cast<char>(ld) << std::endl;
 			else if (charType(ld) == IS_NODISP)
-				std::cerr << M_CHAR << ERR_DISP << RESET << std::endl;
+				std::cerr << M_CHAR << ERR_DISP << std::endl;
 			else
-				std::cerr << BRED <<  M_CHAR << ERR_CONV << RESET << std::endl;
+				std::cerr << M_CHAR << ERR_CONV << std::endl;
 			if (inIntLimits(ld))
-				std::cout << BGREEN << M_INT << static_cast<int>(ld) << RESET << std::endl;
+				std::cout << M_INT << static_cast<int>(ld) << std::endl;
 			else
-				std::cerr << BRED <<  M_INT << ERR_CONV << RESET << std::endl;
+				std::cerr << M_INT << ERR_CONV << std::endl;
 			if (inFloatLimits(ld))
-				std::cout << BGREEN << M_FLOAT << static_cast<float>(ld) << postFixFloat(str) <<  RESET <<std::endl;
+				std::cout << M_FLOAT << static_cast<float>(ld) << postFixFloat(str) << std::endl;
 			else
-				std::cerr << BRED <<  M_FLOAT << ERR_CONV << RESET << std::endl;
+				std::cerr << M_FLOAT << ERR_CONV << std::endl;
 			if (inDoubleLimits(ld))
-				std::cout << BGREEN << M_DOUBLE << ld << postFixDouble(str) << RESET << std::endl;
+				std::cout << M_DOUBLE << ld << postFixDouble(str) << std::endl;
 			else
-				std::cerr << BRED <<  M_DOUBLE << ERR_CONV << RESET << std::endl;
+				std::cerr << M_DOUBLE << ERR_CONV << std::endl;
 			break;
 		case IS_FLOAT:
 			if (charType(ld) == IS_DISP)
-				std::cout << BGREEN << M_CHAR << static_cast<char>(ld) << RESET << std::endl;
+				std::cout << M_CHAR << static_cast<char>(ld) << std::endl;
 			else if (charType(ld) == IS_NODISP)
-				std::cerr << M_CHAR << ERR_DISP << RESET << std::endl;
+				std::cerr << M_CHAR << ERR_DISP << std::endl;
 			else
-				std::cerr << BRED << M_CHAR << ERR_CONV << RESET << std::endl;
+				std::cerr << M_CHAR << ERR_CONV << std::endl;
 			if (inIntLimits(ld))
-				std::cout << BGREEN <<  M_INT << static_cast<int>(ld) << RESET << std::endl;
+				std::cout << M_INT << static_cast<int>(ld) << std::endl;
 			else
-				std::cerr << BRED << M_INT << ERR_CONV << RESET << std::endl;
-			std::cout << BGREEN <<  M_FLOAT << static_cast<float>(ld) << postFixFloat(str) << RESET << std::endl;
-			std::cout << BGREEN <<  M_DOUBLE << ld << postFixDouble(str) << RESET << std::endl;
+				std::cerr << M_INT << ERR_CONV << std::endl;
+			std::cout << M_FLOAT << static_cast<float>(ld) << postFixFloat(str) << std::endl;
+			std::cout << M_DOUBLE << ld << postFixDouble(str) << std::endl;
 			break;
 		case IS_INT:
 			if (charType(ld) == IS_DISP)
-				std::cout << BGREEN << M_CHAR << static_cast<char>(ld) << RESET << std::endl;
+				std::cout << M_CHAR << static_cast<char>(ld) << std::endl;
 			else if (charType(ld) == IS_NODISP)
-				std::cerr << M_CHAR << ERR_DISP << RESET << std::endl;
+				std::cerr << M_CHAR << ERR_DISP << std::endl;
 			else
-				std::cerr << BRED << M_CHAR << ERR_CONV << RESET << std::endl;
-			std::cout << BGREEN << M_INT << ld << RESET << std::endl;
-			std::cout << BGREEN << M_FLOAT << ld << postFixFloat(str) << RESET << std::endl;
-			std::cout << BGREEN << M_DOUBLE << ld << postFixDouble(str) << RESET << std::endl;
+				std::cerr << M_CHAR << ERR_CONV << std::endl;
+			std::cout << M_INT << ld << std::endl;
+			std::cout << M_FLOAT << ld << postFixFloat(str) << std::endl;
+			std::cout << M_DOUBLE << ld << postFixDouble(str) << std::endl;
 			break;
 		case IS_CHAR:
-			std::cout << BGREEN << M_CHAR << str << RESET << std::endl;
-			std::cout << BGREEN << M_INT << static_cast<int>(str[0]) << RESET << std::endl;
-			std::cout << BGREEN << M_FLOAT << static_cast<int>(str[0]) << postFixFloat(str) << RESET << std::endl;
-			std::cout << BGREEN << M_DOUBLE << static_cast<int>(str[0]) << postFixDouble(str) << RESET << std::endl;
+			std::cout << M_CHAR << str << std::endl;
+			std::cout << M_INT << static_cast<int>(str[0]) << std::endl;
+			std::cout << M_FLOAT << static_cast<int>(str[0]) << postFixFloat(str) << std::endl;
+			std::cout << M_DOUBLE << static_cast<int>(str[0]) << postFixDouble(str) << std::endl;
 			break;
 		case IS_ZERO:
-			std::cout << M_CHAR << ERR_DISP << RESET << std::endl;
-			std::cout << BGREEN << M_INT << 0 << RESET << std::endl;
-			std::cout << BGREEN << M_FLOAT << "0.0f" << RESET << std::endl;
-			std::cout << BGREEN << M_DOUBLE << "0.0" << RESET << std::endl;
+			std::cout << M_CHAR << ERR_DISP << std::endl;
+			std::cout << M_INT << 0 << std::endl;
+			std::cout << M_FLOAT << "0.0f" << std::endl;
+			std::cout << M_DOUBLE << "0.0" << std::endl;
 			break;
 		case IS_SPECIAL:
-			std::cerr << BRED << M_CHAR << ERR_CONV << RESET << std::endl;
-			std::cerr << BRED << M_INT << ERR_CONV << RESET << std::endl;
+			std::cerr << M_CHAR << ERR_CONV << std::endl;
+			std::cerr << M_INT << ERR_CONV << std::endl;
 			if (isInf(str) || isNan(str)) {
-				std::cout << BGREEN << M_FLOAT << str << "f" << RESET << std::endl;
-				std::cout << BGREEN << M_DOUBLE << str << RESET << std::endl;
+				std::cout << M_FLOAT << str << "f" << std::endl;
+				std::cout << M_DOUBLE << str << std::endl;
 			}
 			else {
-				std::cout << BGREEN << M_FLOAT << str << RESET << std::endl;
-				std::cout << BGREEN << M_DOUBLE << ((std::string)str).erase(strlen(str) - 1) << RESET << std::endl;
+				std::cout << M_FLOAT << str << std::endl;
+				std::cout << M_DOUBLE << ((std::string)str).erase(strlen(str) - 1) << std::endl;
 			}
 	}
 }
