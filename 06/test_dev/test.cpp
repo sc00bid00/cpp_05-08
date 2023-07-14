@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 09:04:06 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/14 14:35:17 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/14 14:59:11 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,13 +194,9 @@ int	typeChecker(char* s) {
 	return IS_ELSE;
 }
 
-
-
-int	main(int argc, char ** argv) {
-	if (argc != 2)
-		return (std::cerr << ERR_NARG << std::endl, 1);
-	long double	ld = strtold(argv[1], NULL);
-	switch (typeChecker(argv[1])) {
+void	convert(char* str) {
+		long double	ld = strtold(str, NULL);
+	switch (typeChecker(str)) {
 		case IS_ELSE:
 			std::cerr << M_CHAR << ERR_CONV << std::endl;
 			std::cerr << M_INT << ERR_CONV << std::endl;
@@ -219,11 +215,11 @@ int	main(int argc, char ** argv) {
 			else
 				std::cerr << M_INT << ERR_CONV << std::endl;
 			if (inFloatLimits(ld))
-				std::cout << M_FLOAT << argv[1] << postFixFloat(argv[1]) << std::endl;
+				std::cout << M_FLOAT << str << postFixFloat(str) << std::endl;
 			else
 				std::cerr << M_FLOAT << ERR_CONV << std::endl;
 			if (inDoubleLimits(ld))
-				std::cout << M_DOUBLE << ld << postFixDouble(argv[1]) << std::endl;
+				std::cout << M_DOUBLE << ld << postFixDouble(str) << std::endl;
 			else
 				std::cerr << M_DOUBLE << ERR_CONV << std::endl;
 			break;
@@ -238,8 +234,8 @@ int	main(int argc, char ** argv) {
 				std::cout << M_INT << static_cast<int>(ld) << std::endl;
 			else
 				std::cerr << M_INT << ERR_CONV << std::endl;
-			std::cout << M_FLOAT << argv[1] << std::endl;
-			std::cout << M_DOUBLE << ld << postFixDouble(argv[1]) << std::endl;
+			std::cout << M_FLOAT << str << std::endl;
+			std::cout << M_DOUBLE << ld << postFixDouble(str) << std::endl;
 			break;
 		case IS_INT:
 			if (charType(ld) == IS_DISP)
@@ -249,14 +245,14 @@ int	main(int argc, char ** argv) {
 			else
 				std::cerr << M_CHAR << ERR_CONV << std::endl;
 			std::cout << M_INT << ld << std::endl;
-			std::cout << M_FLOAT << ld << postFixFloat(argv[1]) << std::endl;
-			std::cout << M_DOUBLE << ld << postFixDouble(argv[1]) << std::endl;
+			std::cout << M_FLOAT << ld << postFixFloat(str) << std::endl;
+			std::cout << M_DOUBLE << ld << postFixDouble(str) << std::endl;
 			break;
 		case IS_CHAR:
-			std::cout << M_CHAR << argv[1] << std::endl;
-			std::cout << M_INT << static_cast<int>(argv[1][0]) << std::endl;
-			std::cout << M_FLOAT << static_cast<int>(argv[1][0]) << postFixFloat(argv[1]) << std::endl;
-			std::cout << M_DOUBLE << static_cast<int>(argv[1][0]) << postFixDouble(argv[1]) << std::endl;
+			std::cout << M_CHAR << str << std::endl;
+			std::cout << M_INT << static_cast<int>(str[0]) << std::endl;
+			std::cout << M_FLOAT << static_cast<int>(str[0]) << postFixFloat(str) << std::endl;
+			std::cout << M_DOUBLE << static_cast<int>(str[0]) << postFixDouble(str) << std::endl;
 			break;
 		case IS_ZERO:
 			std::cout << M_CHAR << ERR_DISP << std::endl;
@@ -267,14 +263,19 @@ int	main(int argc, char ** argv) {
 		case IS_SPECIAL:
 			std::cerr << M_CHAR << ERR_CONV << std::endl;
 			std::cerr << M_INT << ERR_CONV << std::endl;
-			if (isInf(argv[1]) || isNan(argv[1])) {
-				std::cout << M_FLOAT << argv[1] << "f" << std::endl;
-				std::cout << M_DOUBLE << argv[1] << std::endl;
+			if (isInf(str) || isNan(str)) {
+				std::cout << M_FLOAT << str << "f" << std::endl;
+				std::cout << M_DOUBLE << str << std::endl;
 			}
 			else {
-				std::cout << M_FLOAT << argv[1] << std::endl;
-				std::cout << M_DOUBLE << ((std::string)argv[1]).erase(strlen(argv[1]) - 1) << std::endl;
+				std::cout << M_FLOAT << str << std::endl;
+				std::cout << M_DOUBLE << ((std::string)str).erase(strlen(str) - 1) << std::endl;
 			}
 	}
-	return 0;
+}
+
+int	main(int argc, char ** argv) {
+	if (argc != 2)
+		return (std::cerr << ERR_NARG << std::endl, 1);
+	convert(argv[1]);
 }
