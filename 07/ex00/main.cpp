@@ -6,14 +6,31 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 15:11:24 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/16 16:03:53 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/16 16:15:49 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "whatever.hpp"
-#include "Colors.hpp"
+#include <iostream>
+#include <string>
 
 int	main(void) {
+
+	/* subject main */
+	int a = 2;
+	int b = 3;
+	::swap( a, b );
+	std::cout << "a = " << a << ", b = " << b << std::endl;
+	std::cout << "min( a, b ) = " << ::min( a, b ) << std::endl;
+	std::cout << "max( a, b ) = " << ::max( a, b ) << std::endl;
+	std::string c = "chaine1";
+	std::string d = "chaine2";
+	::swap(c, d);
+	std::cout << "c = " << c << ", d = " << d << std::endl;
+	std::cout << "min( c, d ) = " << ::min( c, d ) << std::endl;
+	std::cout << "max( c, d ) = " << ::max(c , d ) << std::endl;
+	
+
 	// /* my main */
 	// int	a = 21;
 	// int	b = 42;
@@ -43,18 +60,5 @@ int	main(void) {
 	// std::cout << "Min of " << x << " and " << y << " is " << min( x , y ) << " ( " << &min( x, y ) << " )" << std::endl;
 	// std::cout << "Max of " << x << " and " << y << " is " << max( x , y ) << " ( " << &max( x, y ) << " )" << std::endl;
 
-	/* subject main */
-	int a = 2;
-	int b = 3;
-	::swap( a, b );
-	std::cout << "a = " << a << ", b = " << b << std::endl;
-	std::cout << "min( a, b ) = " << ::min( a, b ) << std::endl;
-	std::cout << "max( a, b ) = " << ::max( a, b ) << std::endl;
-	std::string c = "chaine1";
-	std::string d = "chaine2";
-	::swap(c, d);
-	std::cout << "c = " << c << ", d = " << d << std::endl;
-	std::cout << "min( c, d ) = " << ::min( c, d ) << std::endl;
-	std::cout << "max( c, d ) = " << ::max(c , d ) << std::endl;
 	return 0;
 }
