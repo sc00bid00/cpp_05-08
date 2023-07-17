@@ -19,7 +19,7 @@ INCLUDE_DIR := .
 VPATH := $(SRC_DIR)
 SOURCES := main.cpp
 # List of header files
-HEADERS := iter.hpp
+HEADERS := iter.hpp function.hpp
 
 # Object files
 OBJ_F := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(notdir $(SOURCES)))

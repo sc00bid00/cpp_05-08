@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Colors.hpp                                         :+:      :+:    :+:   */
+/*   function.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/24 13:57:29 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/02 11:35:12 by lsordo           ###   ########.fr       */
+/*   Created: 2023/07/17 09:16:59 by lsordo            #+#    #+#             */
+/*   Updated: 2023/07/17 15:56:14 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLORS_H
-# define COLORS_H
+#pragma once
+# include <string>
+# include <iostream>
+# include <exception>
+# include <iomanip>
 
-# define BRED		"\e[1;31m"
-# define BGREEN		"\e[1;32m"
-# define BYELLOW	"\e[1;33m"
-# define BBLUE		"\e[1;34m"
-# define BPURPLE	"\e[1;35m"
-# define BCYAN		"\e[1;36m"
-# define BWHITE		"\e[1;37m"
-# define RESET		"\e[0m"
-# define VERBOSE	false
+template <typename W>
+void function(W& arg) {
+	arg /= 2;
+};
 
-#endif
+template <>
+void function(std::string& arg) {
+	arg += "_touched";
+};
+
+
