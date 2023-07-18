@@ -1,5 +1,5 @@
 # NAME file
-NAME := Iter
+NAME := Array
 
 # Compiler and flags
 CC := c++
@@ -19,7 +19,7 @@ INCLUDE_DIR := .
 VPATH := $(SRC_DIR)
 SOURCES := main.cpp
 # List of header files
-HEADERS := iter.hpp function.hpp
+HEADERS := Colors.hpp Array.hpp
 
 # Object files
 OBJ_F := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(notdir $(SOURCES)))
