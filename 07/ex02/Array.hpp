@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:06:12 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/18 13:41:13 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/18 14:04:06 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,13 @@
 
 template<typename T>
 class	Array {
+
 	private:
-
-/* === ATTRIBUTES === */
-
 		unsigned int	_arrayElements;
 		T*				_array;
 
 	public:
-
 /* === CANONICAL IMPLEMENTATION === */
-
 		Array(void) : _arrayElements(0), _array(new T[_arrayElements]) {
 			if (VERBOSE)
 				std::cout << "Array default constructor called" << std::endl;
@@ -51,29 +47,28 @@ class	Array {
 		Array const& operator=(Array const& rhs) {
 			if (VERBOSE)
 				std::cout << "Array = operator called" << std::endl;
-			this->_array = new T(rhs._arrayElements);
-			*this->_array = *rhs._array;
+			this->_arrayElements = rhs._arrayElements;
+			this->_array = new T[this->_arrayElements];
+			for (unsigned int i = 0; i < this->_arrayElements; i++)
+				this->_array[i] = rhs._array[i];
+			return *this;
 		}
 
 /* === OPERATORS === */
-
 		T&	operator[](unsigned int n) {
 			if (VERBOSE)
 				std::cout << "Array [] operator called" << std::endl;
-			if (n >=0 && n < this->_arrayElements)
+			if (n < this->_arrayElements)
 				return this->_array[n];
 			else throw NoAccessException();
 		}
 
 /* === FUNCTIONS === */
-
 		unsigned int	size(void) const {
 			return this->_arrayElements;
 		}
 
-
 /* === EXCEPTION === */
-
 		class	NoAccessException : public std::exception {
 			public:
 				virtual char const* what() const throw();
