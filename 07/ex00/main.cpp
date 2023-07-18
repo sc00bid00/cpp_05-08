@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 15:11:24 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/16 16:15:49 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/18 16:02:59 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(void) {
 	std::cout << "c = " << c << ", d = " << d << std::endl;
 	std::cout << "min( c, d ) = " << ::min( c, d ) << std::endl;
 	std::cout << "max( c, d ) = " << ::max(c , d ) << std::endl;
-	
+
 
 	// /* my main */
 	// int	a = 21;

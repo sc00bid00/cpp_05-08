@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 16:06:12 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/18 14:04:06 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/18 16:16:28 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,12 @@ class	Array {
 		Array const& operator=(Array const& rhs) {
 			if (VERBOSE)
 				std::cout << "Array = operator called" << std::endl;
-			this->_arrayElements = rhs._arrayElements;
-			this->_array = new T[this->_arrayElements];
-			for (unsigned int i = 0; i < this->_arrayElements; i++)
-				this->_array[i] = rhs._array[i];
+			if (this != rhs) {
+				this->_arrayElements = rhs._arrayElements;
+				this->_array = new T[this->_arrayElements];
+				for (unsigned int i = 0; i < this->_arrayElements; i++)
+					this->_array[i] = rhs._array[i];
+			}
 			return *this;
 		}
 
