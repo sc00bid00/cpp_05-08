@@ -6,13 +6,13 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 17:19:36 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/25 11:01:54 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:14:33 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "easyfind.hpp"
 #include "populateContainer.hpp"
-#include "Colors.hpp"
+#include "Macros.hpp"
 
 
 
@@ -35,5 +35,6 @@ int	main(void) {
 	std::deque<int>	myDeque;
 	populateContainer(myDeque, CONTAINER_SIZE);
 	easyfind(myDeque, TARGET_INTEGER);
+
 	return 0;
 }

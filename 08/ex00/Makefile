@@ -19,7 +19,7 @@ INCLUDE_DIR := .
 VPATH := $(SRC_DIR)
 SOURCES := main.cpp
 # List of header files
-HEADERS := Colors.hpp easyfind.hpp populateContainer.hpp
+HEADERS := Macros.hpp easyfind.hpp populateContainer.hpp
 
 # Object files
 OBJ_F := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(notdir $(SOURCES)))
