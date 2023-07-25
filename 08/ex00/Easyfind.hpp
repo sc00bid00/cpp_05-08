@@ -6,15 +6,16 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 09:36:54 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/25 11:11:29 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:18:32 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include <stdexcept>
-#include <iostream>
-#include <algorithm>
-#include "Macros.hpp"
+#pragma once
+# include <stdexcept>
+# include <iostream>
+# include <algorithm>
+# include "Macros.hpp"
 
 class	NoMatchesException : public std::exception {
 		public:

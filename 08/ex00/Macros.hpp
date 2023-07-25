@@ -6,12 +6,11 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 13:57:29 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/25 11:14:29 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:17:57 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLORS_H
-# define COLORS_H
+#pragma once
 
 # define BRED		"\e[1;31m"
 # define BGREEN		"\e[1;32m"
@@ -32,4 +31,3 @@
 # define TARGET_INTEGER	55
 # define CONTAINER_SIZE	100
 
-#endif

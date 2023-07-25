@@ -6,15 +6,16 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 09:24:52 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/25 11:10:36 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:18:40 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cstdlib>
-#include <vector>
-#include <list>
-#include <deque>
-#include <iostream>
+#pragma once
+# include <cstdlib>
+# include <vector>
+# include <list>
+# include <deque>
+# include <iostream>
 
 template <typename T>
 void	populateContainer(T& container, unsigned int size) {
