@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:39:33 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/25 15:03:02 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/25 19:03:18 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ Span&	Span::operator=(Span& rhs) {
 	return *this;
 }
 
-/* === PRIVATE FUNCTIONS === */
+/* === FUNCTIONS === */
+
+std::vector<int>&	Span::getVectorReference(void)  {
+	return this->_spanVector;
+}
 
 bool	Span::_IsSpace(void) const {
 	if (this->_spanVector.size() < this->_N)
@@ -54,8 +58,6 @@ bool	Span::_IsEmpty(void) const {
 	return false;
 }
 
-/* === FUNCTIONS ==== */
-
 void		Span::addNumber(int const number) {
 	try {
 		if (this->_IsSpace())
@@ -68,12 +70,19 @@ void		Span::addNumber(int const number) {
 	}
 }
 
+void		Span::addInBulk() {
+	while (this->_spanVector.size() < this->_N) {
+		int	r = rand() %RDN_MAGNITUDE;
+		this->_spanVector.push_back(r);
+	}
+}
+
 int		Span::shortestSpan(void) {
 	try {
 		if (!this->_IsEmpty()) {
-			int minSpan = abs(*this->_spanVector.end() - *this->_spanVector.begin());
+			int minSpan = abs(*(this->_spanVector.end()-1) - *this->_spanVector.begin());
 			std::sort(this->_spanVector.begin(), this->_spanVector.end());
-			for (std::vector<int>::const_iterator it = this->_spanVector.begin(); it != this->_spanVector.end(); ++it) {
+			for (std::vector<int>::const_iterator it = this->_spanVector.begin(); it != this->_spanVector.end() - 1; ++it) {
 				if (abs(*it - *(it + 1)) < minSpan)
 					minSpan = abs(*it - *(it + 1));
 			}
@@ -85,19 +94,16 @@ int		Span::shortestSpan(void) {
 	catch (std::exception &e) {
 		std::cout << BRED << e.what() << RESET << std::endl;
 	}
-	return	0;
+	return -1;
 }
 
 int		Span::longestSpan(void) {
 	try {
 		if (!this->_IsEmpty()) {
-			int maxSpan = abs(*this->_spanVector.end() - *this->_spanVector.begin());
-			std::sort(this->_spanVector.begin(), this->_spanVector.end());
-			for (std::vector<int>::const_iterator it = this->_spanVector.begin(); it != this->_spanVector.end(); ++it) {
-				if (abs(*it - *(it + 1)) > maxSpan)
-					maxSpan = abs(*it - *(it + 1));
-			}
-		return maxSpan;
+			int minElement = *std::min_element(this->_spanVector.begin(), this->_spanVector.end());
+			int maxElement = *std::max_element(this->_spanVector.begin(), this->_spanVector.end());
+			int maxSpan = maxElement - minElement;
+			return maxSpan;
 		}
 		else
 			throw EmptyContainerException();
@@ -105,7 +111,7 @@ int		Span::longestSpan(void) {
 	catch (std::exception &e) {
 		std::cout << BRED << e.what() << RESET << std::endl;
 	}
-	return 0;
+	return -1;
 }
 
 char const*	Span::FullContainerException::what() const throw() {
@@ -114,4 +120,11 @@ char const*	Span::FullContainerException::what() const throw() {
 
 char const*	Span::EmptyContainerException::what() const throw() {
 	return ERR_EMPTY_CONTAINER;
+}
+
+std::ostream&	operator<<(std::ostream& o, Span& src) {
+	std::cout << BPURPLE << "Container size        : " << src.getVectorReference().size() << RESET << std::endl;
+	std::cout << BPURPLE << "Min element contained : " << *std::min_element(src.getVectorReference().begin(), src.getVectorReference().end()) << RESET << std::endl;
+	std::cout << BPURPLE << "Max element contained : " << *std::max_element(src.getVectorReference().begin(), src.getVectorReference().end()) << RESET << std::endl;
+	return o;
 }

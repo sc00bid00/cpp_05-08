@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:17:31 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/25 15:00:41 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/25 18:51:43 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ class	Span {
 	private:
 		unsigned int		_N;
 		std::vector<int>	_spanVector;
-		Span(void);
 		bool	_IsSpace(void) const;
 		bool	_IsEmpty(void) const;
 
@@ -35,6 +34,8 @@ class	Span {
 		void	addNumber(int const);
 		int		shortestSpan(void);
 		int		longestSpan(void);
+		void	addInBulk();
+		std::vector<int>&	getVectorReference(void);
 
 		class FullContainerException : public std::exception {
 			public:
@@ -46,3 +47,5 @@ class	Span {
 				virtual char const* what() const throw();
 		};
 };
+
+std::ostream&	operator<<(std::ostream&, Span&);
