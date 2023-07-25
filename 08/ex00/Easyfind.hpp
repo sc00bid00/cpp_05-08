@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   easyfind.hpp                                       :+:      :+:    :+:   */
+/*   Easyfind.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/24 16:59:34 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/24 18:00:17 by lsordo           ###   ########.fr       */
+/*   Created: 2023/07/25 09:36:54 by lsordo            #+#    #+#             */
+/*   Updated: 2023/07/25 11:00:15 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma	once
-
-#include <list>
 
 #include <stdexcept>
 #include <iostream>
+#include <algorithm>
 #include "Colors.hpp"
-
-#define	NOMATCH_FOUND	"No match found for : "
-#define MATCH_FOUND		"Match found for : "
 
 class	NoMatchesException : public std::exception {
 		public:
@@ -31,18 +26,13 @@ char const* NoMatchesException::what() const throw() {
 }
 
 template<typename T>
-void	easyfind(T& intContainer, int integer) {
-	std::list<int>::const_iterator		it;
-	bool								found = false;
+void	easyfind(T& container, int const integer) {
 	try {
-		for (it = intContainer.begin(); it != intContainer.end(); ++it) {
-			if (*it == integer) {
-				found = true;
-				break;
-			}
+		typename T::iterator it = std::find(container.begin(), container.end(), integer);
+		if (it != container.end()) {
+			int index = std::distance(container.begin(), it);
+			std::cout << BGREEN << "Match found for integer : " << integer << " at index : " << index << RESET << std::endl;
 		}
-		if (found)
-			std::cout << BGREEN << MATCH_FOUND << integer << RESET << std::endl;
 		else
 			throw NoMatchesException();
 	}

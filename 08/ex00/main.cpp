@@ -6,28 +6,34 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 17:19:36 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/24 17:42:56 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/25 11:01:54 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Easyfind.hpp"
-#include <cstdlib>
+#include "easyfind.hpp"
+#include "populateContainer.hpp"
+#include "Colors.hpp"
 
-void	populateList(std::list<int>& lst, unsigned int size) {
-	srand(time(NULL));
-	for (unsigned int i = 0; i < size; i++) {
-		int	r = rand() %10;
-		std::cout << r << " ";
-		lst.push_back(r);
-	}
-	std::cout << std::endl;
-}
+
 
 int	main(void) {
-	std::list<int>	lst;
-	/* populate a list of integers */
-	populateList(lst, 5);
-	/* call easyfind to look for an integer */
-	easyfind(lst, 5);
+	srand(time(NULL));
+	/* test case list */
+	std::cout << BYELLOW << TXT_LIST << CONTAINER_SIZE << ", target integer : " << TARGET_INTEGER << RESET << std::endl;
+	std::list<int>		myList;
+	populateContainer(myList, CONTAINER_SIZE);
+	easyfind(myList, TARGET_INTEGER);
+
+	/* test case vector */
+	std::cout << BYELLOW << TXT_VECTOR << CONTAINER_SIZE << ", target integer : " << TARGET_INTEGER << RESET << std::endl;
+	std::vector<int>	myVector;
+	populateContainer(myVector, CONTAINER_SIZE);
+	easyfind(myVector, TARGET_INTEGER);
+
+	/* test case deque */
+	std::cout << BYELLOW << TXT_DEQUE << CONTAINER_SIZE << ", target integer : " << TARGET_INTEGER << RESET << std::endl;
+	std::deque<int>	myDeque;
+	populateContainer(myDeque, CONTAINER_SIZE);
+	easyfind(myDeque, TARGET_INTEGER);
 	return 0;
 }
