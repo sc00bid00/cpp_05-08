@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:17:31 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/26 09:56:05 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/26 10:34:37 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # include "Macros.hpp"
 # include <cstdlib>
 # include <iostream>
-# include <vector>
 # include <algorithm>
+# include <vector>
 # include <stdexcept>
 
 class	Span {
@@ -35,7 +35,7 @@ class	Span {
 		void	addNumber(int const);
 		int		shortestSpan(void);
 		int		longestSpan(void);
-		void	addInBulk();
+		void	addInBulk(std::vector<int>&);
 		std::vector<int>&	getVectorReference(void);
 
 		class FullContainerException : public std::exception {

@@ -6,11 +6,17 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:55:00 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/26 10:01:00 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/26 11:22:05 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
+
+void	populateRandomVector(std::vector<int>&	vector) {
+	std::vector<int>::iterator	it;
+	for (it = vector.begin(); it != vector.end(); ++it)
+		*it = rand() %RDN_MAGNITUDE;
+}
 
 int	main(void) {
 	srand(time(NULL));
@@ -48,9 +54,14 @@ int	main(void) {
 	}
 	{
 		std::cout << BYELLOW << "Test #5" << RESET << std::endl;
-		Span	container(100000);
-
-		container.addInBulk();
+		std::vector<int>	sourceVector(100000);
+		std::cout << BYELLOW << "Source vector random data"<< RESET << std::endl;
+		populateRandomVector(sourceVector);
+		std::cout << BPURPLE << "Min : " << *std::min_element(sourceVector.begin(), sourceVector.end());
+		std::cout << "  Max : " << *std::max_element(sourceVector.begin(), sourceVector.end());
+		std::cout << "  Size : " << sourceVector.size() << RESET << std::endl;
+		Span	container(150000);
+		container.addInBulk(sourceVector);
 		std::cout << container.shortestSpan() << std::endl;
 		std::cout << container.longestSpan() << std::endl;
 		std::cout << container << std::endl;

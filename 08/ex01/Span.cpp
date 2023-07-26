@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:39:33 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/26 09:57:00 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/26 11:17:43 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ void		Span::addNumber(int const number) {
 	}
 }
 
-void		Span::addInBulk() {
-	while (this->_spanVector.size() < this->_N) {
-		int	r = rand() %RDN_MAGNITUDE;
-		this->_spanVector.push_back(r);
+void		Span::addInBulk(std::vector<int>& container) {
+	std::vector<int>::iterator	itSrc = container.begin();
+	while (this->_IsSpace() && itSrc != container.end()) {
+		this->_spanVector.push_back(*itSrc++);
 	}
 }
 
@@ -129,7 +129,9 @@ char const*	Span::EmptyContainerException::what() const throw() {
 
 std::ostream&	operator<<(std::ostream& o, Span& src) {
 	std::cout << BPURPLE << "Container size        : " << src.getVectorReference().size() << RESET << std::endl;
-	std::cout << BPURPLE << "Min element contained : " << *std::min_element(src.getVectorReference().begin(), src.getVectorReference().end()) << RESET << std::endl;
-	std::cout << BPURPLE << "Max element contained : " << *std::max_element(src.getVectorReference().begin(), src.getVectorReference().end()) << RESET << std::endl;
+	if (src.getVectorReference().size()){
+		std::cout << BPURPLE << "Min element contained : " << *std::min_element(src.getVectorReference().begin(), src.getVectorReference().end()) << RESET << std::endl;
+		std::cout << BPURPLE << "Max element contained : " << *std::max_element(src.getVectorReference().begin(), src.getVectorReference().end()) << RESET << std::endl;
+	}
 	return o;
 }
