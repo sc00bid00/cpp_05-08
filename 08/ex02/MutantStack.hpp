@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 12:42:58 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/26 18:06:33 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/26 18:40:01 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ class MutantStack : public std::stack<T, C> {
 			if (VERBOSE)
 				std::cout << BBLUE << "MutantStack default constructor called" << RESET << std::endl;
 		}
-		MutantStack(MutantStack& src) {
+		MutantStack(MutantStack& src) : std::stack<T, C>(src) {
 			if (VERBOSE)
 				std::cout << BBLUE << "MutantStack copy constructor called" << RESET << std::endl;
 			*this = src;
@@ -40,8 +40,8 @@ class MutantStack : public std::stack<T, C> {
 			if (VERBOSE)
 				std::cout << BBLUE << "MutantStack operator= called" << RESET << std::endl;
 			if (this != &rhs)
-				*this = rhs;
-			return (*this);
+				this->c = rhs.c;
+			return *this;
 		}
 
 		typedef typename C::iterator iterator;

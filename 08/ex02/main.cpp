@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:03:40 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/26 18:17:42 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/26 18:41:09 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <string>
 
 int	main(void) {
+	/* === TEST 1 === */
 	{
 		std::cout << BYELLOW << ">>>> Test #1 subject's main" << RESET << std::endl;
 		MutantStack<int> mstack;
@@ -38,8 +39,9 @@ int	main(void) {
 		}
 		std::stack<int> s(mstack);
 	}
+	/* === TEST 2 === */
 	{
-		std::cout << BYELLOW << ">>>> Test #2 int deque" << RESET << std::endl;
+		std::cout << BYELLOW << ">>>> Test #2 int deque, safe functions" << RESET << std::endl;
 		MutantStack<int>	zombie;
 
 		zombie.push(126);
@@ -63,12 +65,14 @@ int	main(void) {
 		}
 		std::cout << BYELLOW << "Top : " << zombie.safeTop() << RESET << std::endl;
 	}
+	/* === TEST 3 === */
 	{
-		std::cout << BYELLOW << ">>>> Test #3 string, list" << RESET << std::endl;
-		MutantStack<std::string, std::list<std::string> >	zombie;
+		std::cout << BYELLOW << ">>>> Test #3 string, list, copy constructor" << RESET << std::endl;
+		MutantStack<std::string, std::list<std::string> >	zombie_2;
 
-		zombie.push("Hello");
-		zombie.push("World");
+		zombie_2.push("Hello");
+		zombie_2.push("World");
+		MutantStack<std::string, std::list<std::string> >	zombie(zombie_2);
 		for (MutantStack<std::string, std::list<std::string> >::iterator it = zombie.begin(); it != zombie.end(); ++it)
 			std::cout << *it << std::endl;
 		std::cout << BGREEN << "Stack size : " << zombie.size() << RESET << std::endl;
@@ -77,6 +81,8 @@ int	main(void) {
 			zombie.safePop();
 		}
 		zombie.safePop();
+		std::cout << BGREEN << "Stack size : " << zombie.size() << RESET << std::endl;
+
 	}
 	return 0;
 }
