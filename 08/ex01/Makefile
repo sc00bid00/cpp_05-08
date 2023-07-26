@@ -17,7 +17,7 @@ INCLUDE_DIR := .
 
 # List of source files
 VPATH := $(SRC_DIR)
-SOURCES := main.cpp Span.cpp
+SOURCES := main.cpp Span.cpp populateRandomVector.cpp
 # List of header files
 HEADERS := Macros.hpp Span.hpp
 

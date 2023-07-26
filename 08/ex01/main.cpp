@@ -6,17 +6,14 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:55:00 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/26 11:22:05 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/26 12:45:48 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
 
-void	populateRandomVector(std::vector<int>&	vector) {
-	std::vector<int>::iterator	it;
-	for (it = vector.begin(); it != vector.end(); ++it)
-		*it = rand() %RDN_MAGNITUDE;
-}
+void	populateRandomVector(std::vector<int>&	vector);
+
 
 int	main(void) {
 	srand(time(NULL));
