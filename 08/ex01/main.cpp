@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 14:55:00 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/25 19:06:09 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/26 10:01:00 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,28 @@ int	main(void) {
 		std::cout << container.shortestSpan() << std::endl;
 		std::cout << container.longestSpan() << std::endl;
 		std::cout << container << std::endl;
+	}
+	{
+		Span	container(3);
+
+		std::cout << BYELLOW << "Test #6" << RESET << std::endl;
+		std::cout << BYELLOW << "Original container"<< RESET << std::endl;
+		container.addNumber(2);
+		container.addNumber(42);
+		container.addNumber(4);
+		std::cout << container.shortestSpan() << std::endl;
+		std::cout << container.longestSpan() << std::endl;
+		std::cout << container << std::endl;
+		std::cout << BYELLOW << "Copy container"<< RESET << std::endl;
+		Span	copyContainer(container);
+		std::cout << copyContainer.shortestSpan() << std::endl;
+		std::cout << copyContainer.longestSpan() << std::endl;
+		std::cout << copyContainer << std::endl;
+		std::cout << BYELLOW << "Assigned container"<< RESET << std::endl;
+		Span	assignedContainer = container;
+		std::cout << assignedContainer.shortestSpan() << std::endl;
+		std::cout << assignedContainer.longestSpan() << std::endl;
+		std::cout << assignedContainer << std::endl;
 	}
 	return 0;
 }

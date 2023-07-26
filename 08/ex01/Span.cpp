@@ -6,13 +6,18 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 13:39:33 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/25 19:03:18 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/26 09:57:00 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
 
 /* === CANONICAL IMPLEMENTATION === */
+
+Span::Span(void) : _N(0) {
+	if (VERBOSE)
+		std::cout << BBLUE << "Span default constructor called" << RESET << std::endl;
+}
 
 Span::Span(unsigned int N) : _N(N) {
 	if (VERBOSE)

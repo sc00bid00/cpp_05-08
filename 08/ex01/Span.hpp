@@ -6,7 +6,7 @@
 /*   By: lsordo <lsordo@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 11:17:31 by lsordo            #+#    #+#             */
-/*   Updated: 2023/07/25 18:51:43 by lsordo           ###   ########.fr       */
+/*   Updated: 2023/07/26 09:56:05 by lsordo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ class	Span {
 		bool	_IsEmpty(void) const;
 
 	public:
+		Span(void);
 		Span(unsigned int);
 		Span(Span&);
 		~Span(void);
